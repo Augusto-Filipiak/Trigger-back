@@ -28,3 +28,29 @@ export async function criarUser(req, res) {
         return console.log(e)
     }
 }
+
+export async function adquirirPatrimonio(req, res) {
+    const {user_id, patrimonio_id} = req.params
+
+    const userId = parseInt(user_id)
+    const patrimonioId = parseInt(patrimonio_id)
+
+    const pegarIdPatrimonio = await prisma.patrimonios.findUnique({
+        where: {
+            patrimonio_id: patrimonioId
+        }
+    })
+
+    const pegarIdUser = await prisma.users.findUnique({
+        where: {
+            user_id: userId
+        }
+    })
+
+    const criarRelação = await prisma.usersPatrimonios.create({
+        data: {
+            user_id: pegarIdUser.user_id,
+            patrimonio_id: pegarIdPatrimonio.patrimonio_id
+        }
+    })
+}
