@@ -1,99 +1,82 @@
 import { PrismaClient } from "@prisma/client";
-
 const prisma = new PrismaClient();
 
 export async function verifyUserData(req, res, next) {
   const { name, username, email, senha, adm, genero, data_nascimento, cpf, setor } = req.body;
 
   try {
-
-    // name -> mínimo 1 máximo 100
+    // name
     if (!name || name.length < 1 || name.length > 100) {
-      throw Error = res.status(400).json({ message: "Nome inválido." });
+      return res.status(400).json({ message: "Nome inválido. Deve ter entre 1 e 100 caracteres." });
     }
 
-
-    // username-> mínimo 5 máximo 50 e unico
+    // username
     if (!username || username.length < 5 || username.length > 50) {
-      throw Error = res.status(400).json({ message: "O username deve ter entre 5 e 50 caracteres." });
-    }
-    
-    const existsName = await prisma.users.findUnique({
-      where: {
-        name: name
-      }
-    })
-    
-    if(existsName) {
-      throw new Error(res.status(400).json({message: "Este nome ja esta sendo utilizado!"}))
+      return res.status(400).json({ message: "Username deve ter entre 5 e 50 caracteres." });
     }
 
+    const existsUsername = await prisma.users.findUnique({
+      where: { username }
+    });
+    if (existsUsername) {
+      return res.status(400).json({ message: "Este username já está sendo utilizado." });
+    }
+
+    // email
     if (!email || !email.includes("@")) {
-      throw new Error(res.status(400).json({ message: "Email inválido." }));
+      return res.status(400).json({ message: "Email inválido." });
     }
 
     const existingEmail = await prisma.users.findUnique({
       where: { email },
     });
-
     if (existingEmail) {
-      throw new Error(res.status(400).json({ message: "Este email já está em uso." }));
+      return res.status(400).json({ message: "Este email já está em uso." });
     }
 
-
-    // senha -> mínimo 6 caracteres
+    // senha
     if (!senha || senha.length < 6) {
-        throw new Error(res.status(400).json({ message: "A senha deve ter pelo menos 6 caracteres." }));
-      }
-
-
-    // adm -> booleano
-    if (typeof adm !== "boolean") {
-      throw new Error(res.status(400).json({ message: "O campo 'adm' deve ser true ou false." }));
+      return res.status(400).json({ message: "A senha deve ter pelo menos 6 caracteres." });
     }
 
+    // adm (opcional, mas se enviado deve ser boolean)
+    if (adm !== undefined && typeof adm !== "boolean") {
+      return res.status(400).json({ message: "O campo 'adm' deve ser true ou false." });
+    }
 
-    // genero -> masculino, feminino ou prefiro não informar
-
+    // genero
     const generosValidos = ["Masculino", "Feminino", "Outros"];
-
     if (!generosValidos.includes(genero)) {
-      throw new Error (res.status(400).json({
-        message: "O gênero deve ser 'masculino', 'feminino' ou 'Outros'.",
-      }));
+      return res.status(400).json({ message: "Gênero deve ser 'Masculino', 'Feminino' ou 'Outros'." });
     }
 
-
-    // data_nascimento -> formato de data válido
-    if (isNaN(Date.parse(data_nascimento))) {
-      throw new Error(res.status(400).json({ message: "Data de nascimento inválida." }));
+    // data_nascimento
+    if (!data_nascimento || isNaN(Date.parse(data_nascimento))) {
+      return res.status(400).json({ message: "Data de nascimento inválida." });
     }
 
-    // cpf -> 11 dígitos numéricos sem pontos ou traços ---> tive que pegar no chat, não fazia ideia de como validar pontuação
+    // cpf
     const cpfRegex = /^\d{11}$/;
     if (!cpfRegex.test(cpf)) {
-      throw new Error(res.status(400).json({ message: "CPF inválido. Deve conter 11 números sem pontuação." }));
+      return res.status(400).json({ message: "CPF inválido. Deve conter 11 números sem pontuação." });
     }
 
     const existingCPF = await prisma.users.findUnique({
       where: { cpf },
     });
     if (existingCPF) {
-      throw new Error(res.status(400).json({ message: "Este CPF já está cadastrado." }));
+      return res.status(400).json({ message: "Este CPF já está cadastrado." });
     }
 
-    // setor mínimo 1 máximo 100
+    // setor
     if (!setor || setor.length < 1 || setor.length > 100) {
-      throw new Error(res.status(400).json({ message: "O setor deve ter entre 1 e 100 caracteres." }));
+      return res.status(400).json({ message: "Setor deve ter entre 1 e 100 caracteres." });
     }
 
-    // se tudo estiver certo passa 
+    // Se tudo certo
     next();
-
-  } catch (Err) {
-    console.log(Error)
-    res.status(500).json({ message: "Erro na validação", Error });
-
+  } catch (error) {
+    res.status(500).json({ message: "Erro na validação de dados", error: error.message });
   }
 }
 

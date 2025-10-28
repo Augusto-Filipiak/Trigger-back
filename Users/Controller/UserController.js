@@ -6,29 +6,32 @@ export async function criarUser(req, res) {
     
     const {name , username , email , senha ,genero, adm , data_nascimento ,foto_perfil ,cpf , setor} = req.body
 
-    const newUser = {
-        name: name,
-        username: username,
-        email: email,
-        senha: senha,
-        adm: adm,
-        genero: genero,
-        data_nascimento: data_nascimento,
-        foto_perfil: foto_perfil,
-        cpf: cpf,
-        setor: setor
-    }
     
     try{
-        const usuarios = await prisma.users.create({
-            data: newUser
-        })
+        const newUser = await prisma.users.create({
+          data: {       
+            name: name,
+            username: username,
+            email: email,
+            senha: senha,
+            adm: adm,
+            genero: genero,
+            data_nascimento: data_nascimento,
+            foto_perfil: foto_perfil,
+            cpf: cpf,
+            setor: setor
+          }
+        });
 
        res.status(201).json({ message: "Usuario criado com sucesso"})
 
     } catch(error) {
 
-      res.status(500).json({ message: "Erro ao criar usuário", error });
+      console.error("Erro detalhado do Prisma:", error);
+      res.status(500).json({ 
+        message: "Erro ao criar usuário", 
+        error: error.message 
+      });
 
     }
 }
