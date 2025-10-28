@@ -6,7 +6,6 @@ export async function criarPatrimonio(req, res) {
 
     const {name, status, estoque} = req.body
     
-    
     const newPatrimonio = {
         name: name,
         status: status,
@@ -54,4 +53,40 @@ export async function pegarUmPatrimonio(req, res) {
             patrimonio_id: id
         }
     }))
+}
+
+export async function atualizarUmPatrimonio(req, res) {
+    const id = parseInt(req.params.id)
+
+    const { name, status, estoque } = req.body
+    try {
+    
+        const verificar = prisma.patrimonios.findUnique({
+            where: {
+                patrimonio_id: id
+            }
+        })
+
+        if(!verificar) {
+            throw new Error({message: ("Este Patrimonio não existe!")})
+        }
+
+        const atualizar = await prisma.patrimonios.update ({
+            where: {
+                patrimonio_id: id
+            },
+            data: {
+                name: name,
+                status: status,
+                estoque: estoque
+            }
+        })
+
+        
+
+        return res.status(200).json(atualizar)
+
+    } catch (e) {
+        console.log(e)
+    }
 }
