@@ -7,5 +7,8 @@ userRouter.post("/create", (req, res) => {
     criarUser(req, res)
 })
 
+userRouter.patch("/update/:id", (req, res) => {
+    
+})
 
 export default userRouter;
