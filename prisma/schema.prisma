@@ -26,3 +26,10 @@ model Users {
   cpf String 
   setor String
 }
+
+model Patrimonios {
+  patrimonio_id Int @id @default(autoincrement())
+  name String 
+  status Boolean @default(true)
+  estoque Int 
+}

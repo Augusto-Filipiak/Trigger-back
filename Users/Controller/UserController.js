@@ -4,7 +4,7 @@ const prisma = new PrismaClient()
 
 export async function criarUser(req, res) {
     
-    const {name , username , email , senha , adm,genero , data_nascimento ,foto_perfil ,cpf , setor} = req.body
+    const {name , username , email , senha ,genero , data_nascimento ,foto_perfil ,cpf , setor} = req.body
 
     const newUser = {
         name: name,
