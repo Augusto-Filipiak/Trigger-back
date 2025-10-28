@@ -15,7 +15,7 @@ patrimonioRouter.get("/", (req, res) => {
     pegarTodosPatrimonios(req, res)
 })
 
-patrimonioRouter.post("/:id", (req, res) => {
+patrimonioRouter.get("/:id", (req, res) => {
     pegarUmPatrimonio(req, res)
 })
 
