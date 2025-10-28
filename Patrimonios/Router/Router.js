@@ -1,4 +1,4 @@
-import { criarPatrimonio, deletarPatrimonio, pegarTodosPatrimonios } from "../Controller/PatrimonioController.js";
+import { criarPatrimonio, deletarPatrimonio, pegarTodosPatrimonios, pegarUmPatrimonio } from "../Controller/PatrimonioController.js";
 import { Router } from "express";
 
 const patrimonioRouter = Router();
@@ -13,6 +13,10 @@ patrimonioRouter.delete("/:id", (req, res) => {
 
 patrimonioRouter.get("/", (req, res) => {
     pegarTodosPatrimonios(req, res)
+})
+
+patrimonioRouter.get("/:id", (req, res) => {
+    pegarUmPatrimonio(req, res)
 })
 
 export default patrimonioRouter
