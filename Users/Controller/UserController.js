@@ -54,3 +54,57 @@ export async function adquirirPatrimonio(req, res) {
         }
     })
 }
+
+
+export async function atualizarUser(req, res) {
+  try {
+    const id = parseInt(req.params.id)
+    const {
+      name,
+      username,
+      email,
+      senha,
+      genero,
+      data_nascimento,
+      foto_perfil,
+      cpf,
+      setor
+    } = req.body
+
+    // opcional: verifica se o usuário existe
+    const userExists = await prisma.users.findUnique({
+      where: { user_id: id }
+    })
+
+    if (!userExists) {
+      return res.status(404).json({ message: 'Usuário não encontrado' })
+    }
+
+    // Atualiza o usuário
+    const updatedUser = await prisma.users.update({
+      where: { user_id: id },
+      data: {
+        name,
+        username,
+        email,
+        senha,
+        genero,
+        data_nascimento,
+        foto_perfil,
+        cpf,
+        setor
+      }
+    })
+
+    return res.status(200).json({
+      message: 'Usuário atualizado com sucesso',
+      user: updatedUser
+    })
+  } catch (e) {
+    console.error(e)
+    return res.status(500).json({
+      message: 'Erro ao atualizar usuário',
+      error: e.message
+    })
+  }
+}
