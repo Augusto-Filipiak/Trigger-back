@@ -53,4 +53,6 @@ export async function adquirirPatrimonio(req, res) {
             patrimonio_id: pegarIdPatrimonio.patrimonio_id
         }
     })
+
+    return res.status(200).json(criarRelação)
 }
