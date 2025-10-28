@@ -4,7 +4,7 @@ const prisma = new PrismaClient()
 
 export async function criarUser(req, res) {
     
-    const {name , username , email , senha ,genero , data_nascimento ,foto_perfil ,cpf , setor} = req.body
+    const {name , username , email , senha ,genero, adm , data_nascimento ,foto_perfil ,cpf , setor} = req.body
 
     const newUser = {
         name: name,
@@ -20,13 +20,6 @@ export async function criarUser(req, res) {
     }
     
     try{
-        const existingUser = await prisma.user.findUnique({
-            where: { username },
-        });
-    
-        if (existingUser) {
-            return res.status(400).json({ message: "Esse nome de usuário já está em uso" });
-        }
         const usuarios = await prisma.users.create({
             data: newUser
         })
@@ -62,6 +55,8 @@ export async function adquirirPatrimonio(req, res) {
             patrimonio_id: pegarIdPatrimonio.patrimonio_id
         }
     })
+
+    res.status(200).json(criarRelação)
 }
 
 
