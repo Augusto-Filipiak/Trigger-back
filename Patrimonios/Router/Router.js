@@ -19,8 +19,8 @@ patrimonioRouter.get("/:id", (req, res) => {
     pegarUmPatrimonio(req, res)
 })
 
-patrimonioRouter.post("/atualizar/:id", (req, res) => {
-    atualizarUmPatrimonio(req, res)
+patrimonioRouter.patch("/update/:id", (req, res) => {
+    atualizarUmPatrimonio(req, res) 
 })
 
 export default patrimonioRouter
