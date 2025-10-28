@@ -24,12 +24,26 @@ export async function criarUser(req, res) {
             data: newUser
         })
 
-        return res.status(200).json(usuarios)
+       res.status(201).json({ message: "Usuario criado com sucesso"})
 
-    } catch(e) {
-        return console.log(e)
+    } catch(error) {
+
+      res.status(500).json({ message: "Erro ao criar usuário", error });
+
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
 
 export async function adquirirPatrimonio(req, res) {
     const {user_id, patrimonio_id} = req.params

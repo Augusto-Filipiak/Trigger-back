@@ -55,11 +55,11 @@ export async function verifyUserData(req, res, next) {
 
     // genero -> masculino, feminino ou prefiro não informar
 
-    const generosValidos = ["masculino", "feminino", "prefiro não informar"];
+    const generosValidos = ["Masculino", "Feminino", "Outros"];
 
     if (!generosValidos.includes(genero)) {
       throw new Error (res.status(400).json({
-        message: "O gênero deve ser 'masculino', 'feminino' ou 'prefiro não informar'.",
+        message: "O gênero deve ser 'masculino', 'feminino' ou 'Outros'.",
       }));
     }
 
@@ -91,8 +91,8 @@ export async function verifyUserData(req, res, next) {
     next();
 
   } catch (Err) {
-    console.log(Err)
-    res.status(500).json({ message: "Erro na validação", Err });
+    console.log(Error)
+    res.status(500).json({ message: "Erro na validação", Error });
 
   }
 }

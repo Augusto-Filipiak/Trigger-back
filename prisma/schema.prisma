@@ -15,8 +15,8 @@ datasource db {
 
 model Users {
   user_id Int @id @default(autoincrement())
-  name String @unique
-	username String
+  name String 
+	username String @unique
 	email String @unique
 	senha String 
   adm Boolean @default(false)
