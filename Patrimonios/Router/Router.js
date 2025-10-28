@@ -1,4 +1,4 @@
-import { criarPatrimonio, deletarPatrimonio, pegarTodosPatrimonios, pegarUmPatrimonio } from "../Controller/PatrimonioController.js";
+import { criarPatrimonio, deletarPatrimonio, pegarTodosPatrimonios, pegarUmPatrimonio, atualizarUmPatrimonio } from "../Controller/PatrimonioController.js";
 import { Router } from "express";
 
 const patrimonioRouter = Router();
@@ -17,6 +17,10 @@ patrimonioRouter.get("/", (req, res) => {
 
 patrimonioRouter.get("/:id", (req, res) => {
     pegarUmPatrimonio(req, res)
+})
+
+patrimonioRouter.post("/atualizar/:id", (req, res) => {
+    atualizarUmPatrimonio(req, res)
 })
 
 export default patrimonioRouter
