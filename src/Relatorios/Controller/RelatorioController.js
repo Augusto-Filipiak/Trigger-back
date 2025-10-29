@@ -12,7 +12,7 @@ export async function criarRelatorio(req, res) {
         conteudo: conteudo
     }
 
-    const criar = prisma.relatorio.create({
+    const criar = await prisma.relatorio.create({
         data: novoRelatorio
     })
 
@@ -24,7 +24,7 @@ export async function editarRelatorio(req, res) {
 
     const { tipo, nome, setor, conteudo} = req.body
 
-    const patchRelatorio = prisma.relatorio.update({
+    const patchRelatorio = await prisma.relatorio.update({
         where: {
             relatorio_id: id
         },
@@ -43,7 +43,7 @@ export async function excluirRelatorio(req, res) {
 
     const id = parseInt(req.params.id)
 
-    const deletarRelatorio = prisma.relatorio.delete({
+    const deletarRelatorio = await prisma.relatorio.delete({
         where: {
             relatorio_id: id
         }
@@ -53,5 +53,5 @@ export async function excluirRelatorio(req, res) {
 }
 
 export async function pegarTodosRelatorios(req, res) {
-    return res.status(200).json(prisma.relatorio.findMany())
+    return res.status(200).json( await prisma.relatorio.findMany())
 }

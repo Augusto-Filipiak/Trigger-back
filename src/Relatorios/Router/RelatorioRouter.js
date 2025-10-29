@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { criarRelatorio, excluirRelatorio, editarRelatorio, pegarTodosRelatorios } from "../Controller/RelatorioController";
+import { criarRelatorio, excluirRelatorio, editarRelatorio, pegarTodosRelatorios } from "../Controller/RelatorioController.js";
 
 const roteadorRelatorio = Router()
 

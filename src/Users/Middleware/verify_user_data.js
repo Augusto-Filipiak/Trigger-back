@@ -12,7 +12,7 @@ export async function verifyUserData(req, res, next) {
     if (name.length < 3 || name.length > 100) {
       throw new Error (res.status(400).json({ message: "Nome inválido. Deve ter entre 3 e 100 caracteres." }));
     }
-    ///
+ 
 
 
     /// Username
@@ -27,9 +27,6 @@ export async function verifyUserData(req, res, next) {
     if (existsUsername) {
       throw new Error (res.status(400).json({ message: "Este Nome de usuário já está sendo utilizado." }));
     }
-    ///
-
-
 
     /// email
     if (!email) {
@@ -45,9 +42,6 @@ export async function verifyUserData(req, res, next) {
     if (existingEmail) {
       throw new Error (res.status(400).json({ message: "Este email já está em uso." }));
     }
-    ///
-
-
 
     /// senha
     if (!senha) {
@@ -56,34 +50,22 @@ export async function verifyUserData(req, res, next) {
     if (senha.length < 6) {
       throw new Error (res.status(400).json({ message: "A senha deve ter pelo menos 6 caracteres." }));
     }
-    ///
-
-
 
     /// adm
     if (adm !== undefined && typeof adm !== "boolean") {
       throw new Error (res.status(400).json({ message: "O campo 'adm' deve ser true ou false." }));
     }
-    ///
-
-
-
+ 
     /// genero
     const generosValidos = ["Masculino", "Feminino", "Outros"];
     if (!generosValidos.includes(genero)) {
       throw new Error (res.status(400).json({ message: "Gênero deve ser 'Masculino', 'Feminino' ou 'Outros'." }));
     }
-    ///
-
-
-
+   
     /// data_nascimento
     if (isNaN(Date.parse(data_nascimento))) {
       throw new Error (res.status(400).json({ message: "Data de nascimento inválida." }));
     }
-    ///
-
-  
 
     /// cpf
     if (!cpf) {
@@ -102,9 +84,6 @@ export async function verifyUserData(req, res, next) {
     if (existingCPF) {
       throw new Error (res.status(400).json({ message: "Este CPF já está cadastrado." }));
     }
-    ///
-
-
 
     /// setor
     if (setor) {
