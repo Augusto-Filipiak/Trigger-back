@@ -4,15 +4,29 @@ const prisma = new PrismaClient()
 
 export async function criarPatrimonio(req, res) {
 
-    const {name, status, estoque} = req.body
+    const id = parseInt(req.params.id)
+
+    const {name, status, estoque, id_user_responsavel} = req.body
     
     const newPatrimonio = {
         name: name,
         status: status,
-        estoque: estoque
+        estoque: estoque,
+        id_user_responsavel: id_user_responsavel 
     }
 
     try {
+
+        const verificarIdUsuario = await prisma.users.findUnique({
+            where: {
+                id_user_responsavel: id
+            }
+        })
+        
+        if(!verificarIdUsuario) {
+            throw new Error({mensagem: "O usuario não existe"})
+        }
+
         const patrimonio = await prisma.patrimonios.create({
             data: newPatrimonio
         }) 
