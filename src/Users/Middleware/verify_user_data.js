@@ -5,26 +5,38 @@ export async function verifyUserData(req, res, next) {
   const { name, username, email, senha, adm, genero, data_nascimento, cpf, setor } = req.body;
 
   try {
-    // name
-    if (!name || name.length < 1 || name.length > 100) {
-      return res.status(400).json({ message: "Nome inválido. Deve ter entre 1 e 100 caracteres." });
+    /// name
+    if (!name) {
+      return res.status(400).json({message: "Nome é obrigatório"})
+    }
+    if (name.length < 3 || name.length > 100) {
+      return res.status(400).json({ message: "Nome inválido. Deve ter entre 3 e 100 caracteres." });
+    }
+    ///
+
+
+    /// Username
+    if (!username) {
+      return res.status(400).json({message: "Username é obriatório"})
+    }
+    if (username.length < 5 || username.length > 20) {
+      return res.status(400).json({ message: "Nome de usuário deve ter entre 5 e 20 caracteres." });
     }
 
-    // username
-    if (!username || username.length < 5 || username.length > 50) {
-      return res.status(400).json({ message: "Username deve ter entre 5 e 50 caracteres." });
-    }
-
-    const existsUsername = await prisma.users.findUnique({
-      where: { username }
-    });
+    const existsUsername = await prisma.users.findUnique({where: { username }});
     if (existsUsername) {
-      return res.status(400).json({ message: "Este username já está sendo utilizado." });
+      return res.status(400).json({ message: "Este Nome de usuário já está sendo utilizado." });
     }
+    ///
 
-    // email
-    if (!email || !email.includes("@")) {
-      return res.status(400).json({ message: "Email inválido." });
+
+
+    /// email
+    if (!email) {
+      return res.status(400),json({ message: "Email é obridatório"})
+    }
+    if (!email.includes("@")) {
+      return res.status(400).json({ message: "Email inválido. Precisa ter @" });
     }
 
     const existingEmail = await prisma.users.findUnique({
@@ -33,29 +45,52 @@ export async function verifyUserData(req, res, next) {
     if (existingEmail) {
       return res.status(400).json({ message: "Este email já está em uso." });
     }
+    ///
 
-    // senha
-    if (!senha || senha.length < 6) {
+
+
+    /// senha
+    if (!senha) {
+      return res(400).json({ message: "Senha é obrigatório"})
+    }
+    if (senha.length < 6) {
       return res.status(400).json({ message: "A senha deve ter pelo menos 6 caracteres." });
     }
+    ///
 
-    // adm (opcional, mas se enviado deve ser boolean)
+
+
+    /// adm
     if (adm !== undefined && typeof adm !== "boolean") {
       return res.status(400).json({ message: "O campo 'adm' deve ser true ou false." });
     }
+    ///
 
-    // genero
+
+
+    /// genero
     const generosValidos = ["Masculino", "Feminino", "Outros"];
     if (!generosValidos.includes(genero)) {
       return res.status(400).json({ message: "Gênero deve ser 'Masculino', 'Feminino' ou 'Outros'." });
     }
+    ///
 
-    // data_nascimento
-    if (!data_nascimento || isNaN(Date.parse(data_nascimento))) {
+
+
+    /// data_nascimento
+    if (isNaN(Date.parse(data_nascimento))) {
       return res.status(400).json({ message: "Data de nascimento inválida." });
     }
+    ///
 
-    // cpf
+  
+
+    /// cpf
+    if (!cpf) {
+      return res.status(400).json({ message: "CPF é obrigatório"})
+    }
+
+    // regex pra validar o cpf
     const cpfRegex = /^\d{11}$/;
     if (!cpfRegex.test(cpf)) {
       return res.status(400).json({ message: "CPF inválido. Deve conter 11 números sem pontuação." });
@@ -67,14 +102,21 @@ export async function verifyUserData(req, res, next) {
     if (existingCPF) {
       return res.status(400).json({ message: "Este CPF já está cadastrado." });
     }
+    ///
 
-    // setor
-    if (!setor || setor.length < 1 || setor.length > 100) {
+
+
+    /// setor
+    if (setor) {
+      return res.status(400).json({ message: "Setor é obrifatório"})
+    }
+    if (setor.length < 1 || setor.length > 100) {
       return res.status(400).json({ message: "Setor deve ter entre 1 e 100 caracteres." });
     }
+    ///
 
-    // Se tudo certo
     next();
+
   } catch (error) {
     res.status(500).json({ message: "Erro na validação de dados", error: error.message });
   }
