@@ -51,3 +51,7 @@ export async function excluirRelatorio(req, res) {
 
     return res.status(200).json(deletarRelatorio)
 }
+
+export async function pegarTodosRelatorios(req, res) {
+    return res.status(200).json(prisma.relatorio.findMany())
+}

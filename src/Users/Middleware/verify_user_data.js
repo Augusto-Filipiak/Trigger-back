@@ -116,13 +116,9 @@ export async function verifyUserData(req, res, next) {
     ///
 
     next();
-<<<<<<< HEAD
+  } catch(e) {
     
-=======
-
->>>>>>> fa6e906170a807d0e8c64aaf548eb44c08132cf0
-  } catch (error) {
-    res.status(500).json({ message: "Erro na validação de dados", error: error.message });
   }
+
 }
 
