@@ -87,20 +87,20 @@ export async function verifyUserData(req, res, next) {
 
     /// cpf
     if (!cpf) {
-      throw new Errorr (res.status(400).json({ message: "CPF é obrigatório"}));
+      throw new Error (res.status(400).json({ message: "CPF é obrigatório"}));
     }
 
     // regex pra validar o cpf
     const cpfRegex = /^\d{11}$/;
     if (!cpfRegex.test(cpf)) {
-      return res.status(400).json({ message: "CPF inválido. Deve conter 11 números sem pontuação." });
+      throw new Error( res.status(400).json({ message: "CPF inválido. Deve conter 11 números sem pontuação." }));
     }
 
     const existingCPF = await prisma.users.findUnique({
       where: { cpf },
     });
     if (existingCPF) {
-      return res.status(400).json({ message: "Este CPF já está cadastrado." });
+      throw new Error (res.status(400).json({ message: "Este CPF já está cadastrado." }));
     }
     ///
 
@@ -108,10 +108,10 @@ export async function verifyUserData(req, res, next) {
 
     /// setor
     if (setor) {
-      return res.status(400).json({ message: "Setor é obrifatório"})
+      throw new Error (res.status(400).json({ message: "Setor é obrifatório"}))
     }
     if (setor.length < 1 || setor.length > 100) {
-      return res.status(400).json({ message: "Setor deve ter entre 1 e 100 caracteres." });
+      throw new Error (res.status(400).json({ message: "Setor deve ter entre 1 e 100 caracteres." }));
     }
 
     next();
@@ -120,8 +120,5 @@ export async function verifyUserData(req, res, next) {
   } catch (error) {
     console.error("Erro detalhado do Prisma:", error);
     res.status(500).json({ message: "Erro ao criar usuário", error: error.message });
-
-  
-
-}
+  }
 }
