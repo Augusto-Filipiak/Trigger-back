@@ -1,13 +1,16 @@
 import { Router } from "express";
 import { criarRelatorio, excluirRelatorio, editarRelatorio, pegarTodosRelatorios } from "../Controller/RelatorioController.js";
+import { validacaoRelatorios } from "../Middleware/verify_relatorios_data.js";
+import { verifyUser } from "../../Users/Middleware/verify_user_base64.js";
+
 
 const roteadorRelatorio = Router()
 
-roteadorRelatorio.post("/", (req, res) => {
+roteadorRelatorio.post("/",[validacaoRelatorios], (req, res) => {
     criarRelatorio(req, res)
 })
 
-roteadorRelatorio.delete("/:id", (req, res) => {
+roteadorRelatorio.delete("/:id",[verifyUser], (req, res) => {
     excluirRelatorio(req, res)
 })
 
