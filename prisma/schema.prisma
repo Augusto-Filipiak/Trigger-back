@@ -14,36 +14,36 @@ datasource db {
 }
 
 model Users {
-  user_id Int @id @default(autoincrement())
-  name String 
-	username String @unique
-	email String @unique
-	senha String 
-  adm Boolean @default(false)
-  genero String
-  data_nascimento DateTime 
-  foto_perfil String 
-  cpf String @unique
-  setor String
-  userPatrimonios UsersPatrimonios[]
+  user_id          Int @id @default(autoincrement())
+  name             String 
+	username         String @unique
+	email            String @unique
+	senha            String 
+  adm              Boolean @default(false)
+  genero           String
+  data_nascimento  DateTime 
+  foto_perfil      String 
+  cpf              String @unique
+  setor            String
+  userPatrimonios  UsersPatrimonios[]
 }
 
 model Patrimonios {
-  patrimonio_id Int @id @default(autoincrement())
-  name String 
-  status Boolean @default(true)
-  estoque Int 
+  patrimonio_id   Int @id @default(autoincrement())
+  name            String 
+  status          Boolean @default(true)
+  estoque         Int 
   userPatrimonios UsersPatrimonios[]
 }
 
 model UsersPatrimonios {
-  user_id        Int
-  patrimonio_id  Int
+  user_id         Int
+  patrimonio_id   Int
 
-  data_vinculo   DateTime @default(now())
+  data_vinculo    DateTime @default(now())
 
-  user Users @relation(fields: [user_id], references: [user_id])
-  patrimonio  Patrimonios  @relation(fields: [patrimonio_id], references: [patrimonio_id])
+  user            Users @relation(fields: [user_id], references: [user_id])
+  patrimonio      Patrimonios  @relation(fields: [patrimonio_id], references: [patrimonio_id])
 
   @@id([user_id, patrimonio_id])
 }

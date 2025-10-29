@@ -1,4 +1,11 @@
-import { criarPatrimonio, deletarPatrimonio, pegarTodosPatrimonios, pegarUmPatrimonio, atualizarUmPatrimonio } from "../Controller/PatrimonioController.js";
+import {
+    criarPatrimonio,
+    deletarPatrimonio,
+    pegarTodosPatrimonios,
+    pegarUmPatrimonio, 
+    atualizarUmPatrimonio 
+} from "../Controller/PatrimonioController.js";
+
 import { Router } from "express";
 
 const patrimonioRouter = Router();

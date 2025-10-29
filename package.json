@@ -9,7 +9,11 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
+<<<<<<< HEAD
     "start": "node ./src/server.js",
+=======
+    "start": "node src/server.js",
+>>>>>>> fa6e906170a807d0e8c64aaf548eb44c08132cf0
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

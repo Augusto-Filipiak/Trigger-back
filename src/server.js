@@ -1,7 +1,6 @@
 import express from "express";
 import userRouter from "./Users/Router/UserRouter.js";
-import patrimonioRouter from "./Patrimonios/Router/PatrimonioRouter.js";
-import roteadorRelatorio from "./Relatorios/Router/RelatorioRouter.js";
+import patrimonioRouter from "./src/Users/Patrimonios/Router/Router.js";
 
 const app = express()
 app.use(express.json())
