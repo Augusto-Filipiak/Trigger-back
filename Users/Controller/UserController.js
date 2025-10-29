@@ -33,18 +33,6 @@ export async function criarUser(req, res) {
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
 export async function adquirirPatrimonio(req, res) {
     const {user_id, patrimonio_id} = req.params
 
