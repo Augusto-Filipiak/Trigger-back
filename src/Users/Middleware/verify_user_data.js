@@ -7,25 +7,25 @@ export async function verifyUserData(req, res, next) {
   try {
     /// name
     if (!name) {
-      return res.status(400).json({message: "Nome é obrigatório"})
+      throw new Error (res.status(400).json({message: "Nome é obrigatório"}));
     }
     if (name.length < 3 || name.length > 100) {
-      return res.status(400).json({ message: "Nome inválido. Deve ter entre 3 e 100 caracteres." });
+      throw new Error (res.status(400).json({ message: "Nome inválido. Deve ter entre 3 e 100 caracteres." }));
     }
     ///
 
 
     /// Username
     if (!username) {
-      return res.status(400).json({message: "Username é obriatório"})
+      throw new Error (res.status(400).json({message: "Username é obriatório"}));
     }
     if (username.length < 5 || username.length > 20) {
-      return res.status(400).json({ message: "Nome de usuário deve ter entre 5 e 20 caracteres." });
+      throw new Error (res.status(400).json({ message: "Nome de usuário deve ter entre 5 e 20 caracteres." }));
     }
 
     const existsUsername = await prisma.users.findUnique({where: { username }});
     if (existsUsername) {
-      return res.status(400).json({ message: "Este Nome de usuário já está sendo utilizado." });
+      throw new Error (res.status(400).json({ message: "Este Nome de usuário já está sendo utilizado." }));
     }
     ///
 
@@ -33,17 +33,17 @@ export async function verifyUserData(req, res, next) {
 
     /// email
     if (!email) {
-      return res.status(400),json({ message: "Email é obridatório"})
+      throw new Error (res.status(400),json({ message: "Email é obridatório"}));
     }
     if (!email.includes("@")) {
-      return res.status(400).json({ message: "Email inválido. Precisa ter @" });
+      throw new Error (res.status(400).json({ message: "Email inválido. Precisa ter @" }));
     }
 
     const existingEmail = await prisma.users.findUnique({
       where: { email },
     });
     if (existingEmail) {
-      return res.status(400).json({ message: "Este email já está em uso." });
+      throw new Error (res.status(400).json({ message: "Este email já está em uso." }));
     }
     ///
 
@@ -51,10 +51,10 @@ export async function verifyUserData(req, res, next) {
 
     /// senha
     if (!senha) {
-      return res(400).json({ message: "Senha é obrigatório"})
+      throw new Error  (res(400).json({ message: "Senha é obrigatório"}));
     }
     if (senha.length < 6) {
-      return res.status(400).json({ message: "A senha deve ter pelo menos 6 caracteres." });
+      throw new Error (res.status(400).json({ message: "A senha deve ter pelo menos 6 caracteres." }));
     }
     ///
 
@@ -62,7 +62,7 @@ export async function verifyUserData(req, res, next) {
 
     /// adm
     if (adm !== undefined && typeof adm !== "boolean") {
-      return res.status(400).json({ message: "O campo 'adm' deve ser true ou false." });
+      throw new Error (res.status(400).json({ message: "O campo 'adm' deve ser true ou false." }));
     }
     ///
 
@@ -71,7 +71,7 @@ export async function verifyUserData(req, res, next) {
     /// genero
     const generosValidos = ["Masculino", "Feminino", "Outros"];
     if (!generosValidos.includes(genero)) {
-      return res.status(400).json({ message: "Gênero deve ser 'Masculino', 'Feminino' ou 'Outros'." });
+      throw new Error (res.status(400).json({ message: "Gênero deve ser 'Masculino', 'Feminino' ou 'Outros'." }));
     }
     ///
 
@@ -79,7 +79,7 @@ export async function verifyUserData(req, res, next) {
 
     /// data_nascimento
     if (isNaN(Date.parse(data_nascimento))) {
-      return res.status(400).json({ message: "Data de nascimento inválida." });
+      throw new Error (res.status(400).json({ message: "Data de nascimento inválida." }));
     }
     ///
 
@@ -87,7 +87,7 @@ export async function verifyUserData(req, res, next) {
 
     /// cpf
     if (!cpf) {
-      return res.status(400).json({ message: "CPF é obrigatório"})
+      throw new Errorr (res.status(400).json({ message: "CPF é obrigatório"}));
     }
 
     // regex pra validar o cpf
@@ -113,12 +113,15 @@ export async function verifyUserData(req, res, next) {
     if (setor.length < 1 || setor.length > 100) {
       return res.status(400).json({ message: "Setor deve ter entre 1 e 100 caracteres." });
     }
-    ///
 
     next();
-  } catch(e) {
     
-  }
+
+  } catch (error) {
+    console.error("Erro detalhado do Prisma:", error);
+    res.status(500).json({ message: "Erro ao criar usuário", error: error.message });
+
+  
 
 }
-
+}
