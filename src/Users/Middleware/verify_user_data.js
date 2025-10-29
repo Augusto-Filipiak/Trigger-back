@@ -75,6 +75,7 @@ export async function verifyUserData(req, res, next) {
 
     // Se tudo certo
     next();
+    
   } catch (error) {
     res.status(500).json({ message: "Erro na validação de dados", error: error.message });
   }

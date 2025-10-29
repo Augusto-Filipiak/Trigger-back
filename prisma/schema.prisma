@@ -47,3 +47,11 @@ model UsersPatrimonios {
 
   @@id([user_id, patrimonio_id])
 }
+
+model Relatorio {
+  relatorio_id Int @id @default(autoincrement())
+  tipo String 
+  nome String 
+  setor String 
+  conteudo String
+}
