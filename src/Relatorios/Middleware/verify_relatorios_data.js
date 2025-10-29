@@ -25,6 +25,9 @@ export async function validacaoRelatorios(req, res, next) {
         throw new Error (res.status(400).json({message: "O campo conteudo deve ter entre 3 e 200 caracteres."}));
     }
 
+    next();
+    res.status(200).json({message: "Relatório criado com sucesso."});
+    
     } catch (e) {
         console.error(e);
         res.status(500).json({ message: "Erro ao criar relatório", error: e.message });
