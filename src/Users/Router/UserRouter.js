@@ -12,8 +12,5 @@ userRouter.patch("/update/:id", (req, res) => {
     atualizarUser(req, res)
 })
 
-userRouter.post("/adquirirPatrimonio/:user_id/:patrimonio_id", (req, res) => {
-    adquirirPatrimonio(req, res)
-})
 
 export default userRouter;
