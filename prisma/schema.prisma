@@ -25,28 +25,17 @@ model Users {
   foto_perfil      String 
   cpf              String @unique
   setor            String
-  userPatrimonios  UsersPatrimonios[]
 }
 
 model Patrimonios {
-  patrimonio_id   Int @id @default(autoincrement())
-  name            String 
-  status          Boolean @default(true)
-  estoque         Int 
-  userPatrimonios UsersPatrimonios[]
+  patrimonio_id         Int @id @default(autoincrement())
+  name                  String 
+  status                Boolean @default(true)
+  estoque               Int 
+  id_user_responsavel   Int?
 }
 
-model UsersPatrimonios {
-  user_id         Int
-  patrimonio_id   Int
 
-  data_vinculo    DateTime @default(now())
-
-  user            Users @relation(fields: [user_id], references: [user_id])
-  patrimonio      Patrimonios  @relation(fields: [patrimonio_id], references: [patrimonio_id])
-
-  @@id([user_id, patrimonio_id])
-}
 
 model Relatorio {
   relatorio_id Int @id @default(autoincrement())
