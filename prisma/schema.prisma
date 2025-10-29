@@ -14,25 +14,25 @@ datasource db {
 }
 
 model Users {
-  user_id Int @id @default(autoincrement())
-  name String 
-	username String @unique
-	email String @unique
-	senha String 
-  adm Boolean @default(false)
-  genero String
-  data_nascimento DateTime 
-  foto_perfil String 
-  cpf String @unique
-  setor String
-  userPatrimonios UsersPatrimonios[]
+  user_id          Int @id @default(autoincrement())
+  name             String 
+	username         String @unique
+	email            String @unique
+	senha            String 
+  adm              Boolean @default(false)
+  genero           String
+  data_nascimento  DateTime 
+  foto_perfil      String 
+  cpf              String @unique
+  setor            String
+  userPatrimonios  UsersPatrimonios[]
 }
 
 model Patrimonios {
-  patrimonio_id Int @id @default(autoincrement())
-  name String 
-  status Boolean @default(true)
-  estoque Int 
+  patrimonio_id   Int @id @default(autoincrement())
+  name            String 
+  status          Boolean @default(true)
+  estoque         Int 
   userPatrimonios UsersPatrimonios[]
 }
 
